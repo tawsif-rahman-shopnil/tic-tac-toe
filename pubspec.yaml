@@ -38,7 +38,10 @@ dependencies:
   google_fonts: ^5.1.0
   sizer: ^2.0.15
   flutter_hooks: ^0.20.0
+  url_launcher: ^6.0.0
+  android_intent:
   hooks_riverpod:
+  webview_flutter: ^2.0.13
 
 
 

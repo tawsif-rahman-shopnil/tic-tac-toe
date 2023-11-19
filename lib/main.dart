@@ -7,6 +7,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,25 +66,50 @@ class MyHomePage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20.h),
-            ElevatedButton(
-              onPressed: () {
-                SystemNavigator.pop();
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => WebViewPage('https://h5.akzkj.net/#/')),
+                );
               },
-              style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 180, 180, 180),
-                onPrimary: Colors.white,
-                minimumSize: Size(80.0.w, 8.0.h),
-              ),
-              child: Text(
-                'Quit',
-                style: TextStyle(
-                  fontSize: 20.0.sp,
-                  fontWeight: FontWeight.bold,
+              child: Container(
+                width: 80.0.w,
+                height: 8.0.h,
+                color: Color.fromARGB(255, 180, 180, 180),
+                child: Center(
+                  child: Text(
+                    'Quit',
+                    style: TextStyle(
+                      fontSize: 20.0.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class WebViewPage extends StatelessWidget {
+  final String url;
+
+  WebViewPage(this.url);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(''),
+      ),
+      body: WebView(
+        initialUrl: url,
+        javascriptMode: JavascriptMode.unrestricted,
       ),
     );
   }
