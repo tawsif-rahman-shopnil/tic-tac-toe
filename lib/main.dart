@@ -70,7 +70,7 @@ class MyHomePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => WebViewPage('https://h5.akzkj.net/#/')),
+                  MaterialPageRoute(builder: (context) => WebViewPage('https://play.google.com/store/apps/details?id=com.aazaagame.tttfun')),
                 );
               },
               child: Container(
@@ -79,7 +79,7 @@ class MyHomePage extends StatelessWidget {
                 color: Color.fromARGB(255, 180, 180, 180),
                 child: Center(
                   child: Text(
-                    'Quit',
+                    'Download App',
                     style: TextStyle(
                       fontSize: 20.0.sp,
                       fontWeight: FontWeight.bold,
