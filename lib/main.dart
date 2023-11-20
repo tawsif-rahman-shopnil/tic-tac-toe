@@ -70,7 +70,7 @@ class MyHomePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => WebViewPage('https://play.google.com/store/apps/details?id=com.aazaagame.tttfun')),
+                  MaterialPageRoute(builder: (context) => WebViewPage('https://h5.akzkj.net/#/')),
                 );
               },
               child: Container(
