@@ -42,8 +42,8 @@ dependencies:
   android_intent:
   hooks_riverpod:
   webview_flutter: ^2.0.13
-
-
+  device_info:
+  permission_handler:
 
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -57,6 +57,7 @@ dependencies:
   hive_flutter:
   hive_generator:
   intl: ^0.18.1
+  http: 1.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

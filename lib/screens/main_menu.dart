@@ -13,16 +13,6 @@ class MainMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Tic Tac Toe'),
-         backgroundColor: const Color.fromARGB(255, 202, 202, 202),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
       body: WrapperContainer(
         child: Center(
           child: Column(
