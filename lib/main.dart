@@ -43,11 +43,13 @@ class DeviceUtils {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Hive.initFlutter((await getApplicationDocumentsDirectory()).path);
   Hive.registerAdapter(HistoryModelHiveAdapter());
   await HistoryBox.openBox();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   runApp(const ProviderScope(child: MyApp()));
+
 }
 
 class MyApp extends StatelessWidget {
@@ -178,7 +180,18 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: isLoading ? CircularProgressIndicator() : SizedBox.shrink(),
+        child: isLoading
+            ? Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/splash_image.png',  // Replace with the correct path
+            ),
+            SizedBox(height: 16.0),
+            CircularProgressIndicator(),
+          ],
+        )
+            : SizedBox.shrink(),
       ),
     );
   }

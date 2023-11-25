@@ -58,6 +58,8 @@ dependencies:
   hive_generator:
   intl: ^0.18.1
   http: 1.1.0
+  appsflyer_sdk: ^6.12.2
+  facebook_app_events: ^0.19.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -72,6 +74,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+    - assets/splash_image.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

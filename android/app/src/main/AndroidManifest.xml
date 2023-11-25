@@ -25,6 +25,9 @@
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme" />
+            <meta-data
+                android:name="appsflyer_dev_key"
+                android:value="K2XE7JahmfEqQhmBu9PkMn" />
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
