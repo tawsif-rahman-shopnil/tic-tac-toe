@@ -28,6 +28,9 @@
             <meta-data
                 android:name="appsflyer_dev_key"
                 android:value="K2XE7JahmfEqQhmBu9PkMn" />
+            <meta-data
+                android:name="com.facebook.sdk.ApplicationId"
+                android:value="677741851155438" />
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
