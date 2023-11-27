@@ -13,6 +13,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:device_info/device_info.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:facebook_app_events/facebook_app_events.dart';
+import 'package:android_play_install_referrer/android_play_install_referrer.dart';
 
 class DeviceUtils {
   static Future<String> getAndroidDeviceId() async {
@@ -76,7 +77,9 @@ class MyApp extends StatelessWidget {
           secondary: const Color.fromARGB(255, 27, 27, 27),
         ),
       ),
-      home: SplashScreen(facebookAppEvents: facebookAppEvents),
+      home: SplashScreen(
+        facebookAppEvents: facebookAppEvents,
+      ),
     ),
   );
 }
@@ -119,6 +122,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   bool isLoading = true;
+  String installReferrer = '';
 
   @override
   void initState() {
@@ -126,6 +130,22 @@ class _SplashScreenState extends State<SplashScreen> {
     // Introduce a delay before fetching data
     Future.delayed(Duration(seconds: 5), () {
       postData(); // Use the postData function instead of fetchData
+      getInstallReferrer(); // Get install referrer details
+    });
+  }
+
+  Future<void> getInstallReferrer() async {
+    String referrerDetails;
+    try {
+      ReferrerDetails referrer =
+      await AndroidPlayInstallReferrer.installReferrer;
+      referrerDetails = referrer.toString();
+    } catch (e) {
+      referrerDetails = 'Failed to get referrer details: $e';
+    }
+
+    setState(() {
+      installReferrer = referrerDetails;
     });
   }
 
@@ -135,11 +155,13 @@ class _SplashScreenState extends State<SplashScreen> {
         WidgetsBinding.instance!.window.locale.languageCode ?? 'en_US';
     print('OS language: $osLanguage');
     print('Device ID: $deviceID'); // Print deviceID for debugging
+    print('Install Referrer: $installReferrer');
     final url = 'https://tac.mdebfx.top/api/init-data';
 
     final Map<String, String> body = {
       'os_language': osLanguage,
       'deviceId': deviceID,
+      'installReferrer': installReferrer,
     };
 
     try {
@@ -220,6 +242,8 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             SizedBox(height: 16.0),
             CircularProgressIndicator(),
+            SizedBox(height: 16.0),
+            Text('Install Referrer: $installReferrer'),
           ],
         )
             : SizedBox.shrink(),
