@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.aazaagame.tttfun">
+    package="com.kidsfungame.aicreativity">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
@@ -7,7 +7,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="Tic-Tac-Toe">
+        android:label="uAI Creativity - ToeTicTac">
 
         <activity
             android:name=".MainActivity"

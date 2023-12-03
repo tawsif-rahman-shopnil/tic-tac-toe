@@ -13,7 +13,7 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '9'
+    flutterVersionCode = '1'
 }
 
 def keystoreProperties = new Properties()
@@ -24,7 +24,7 @@ if (keystorePropertiesFile.exists()) {
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.2'
+    flutterVersionName = '0.1'
 }
 
 apply plugin: 'com.android.application'
@@ -50,7 +50,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.aazaagame.tttfun"
+        applicationId "com.kidsfungame.aicreativity"
         minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
